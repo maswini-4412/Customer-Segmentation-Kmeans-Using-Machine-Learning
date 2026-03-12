@@ -43,10 +43,9 @@ import pandas as pd
 df = pd.read_excel("cust_segmentation.xlsx")
 df.head()
 
-##2. Data Understanding
+2. Data Understanding
 
-Initial data exploration was performed to understand the dataset structure.
-
+Basic data exploration was performed to understand the dataset.
 Key checks performed:
 
 Dataset shape
