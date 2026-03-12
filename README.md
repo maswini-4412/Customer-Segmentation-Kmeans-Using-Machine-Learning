@@ -1,4 +1,4 @@
-Customer Segmentation Using K-Means Clustering
+# Customer Segmentation Using K-Means Clustering
 Project Overview
 This project performs customer segmentation using K-Means clustering to identify different groups of customers based on their purchasing behavior.
 The goal is to analyze transaction data and group customers into Low Value, Medium Value, and High Value segments using machine learning techniques. These segments help businesses understand customer behavior and design targeted marketing strategies.
