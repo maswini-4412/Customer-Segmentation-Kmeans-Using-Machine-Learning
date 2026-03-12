@@ -1,27 +1,27 @@
 # Customer Segmentation Using K-Means Clustering
 
 ## Project Overview
-This project performs **customer segmentation using K-Means clustering** to identify different groups of customers based on their purchasing behavior.
+This project performs **Customer Segmentation using K-Means Clustering** to identify different groups of customers based on their purchasing behavior.
 
-The goal is to analyze transaction data and group customers into:
+The goal is to analyze retail transaction data and group customers into meaningful segments that help businesses improve **marketing strategies, customer retention, and revenue growth**.
 
-- **Low Value Customers**
-- **Medium Value Customers**
-- **High Value Customers**
+Customers are segmented into:
 
-These segments help businesses understand customer behavior and design **targeted marketing strategies**.
+- Low Value Customers
+- Medium Value Customers
+- High Value Customers
 
-The final segmented data is also visualized using **Power BI dashboards** to provide business insights.
+The final results are also visualized using **Power BI dashboards** to provide business insights.
 
 ---
 
 # Dataset
 
-The dataset contains **online retail transaction data** with the following columns:
+The dataset contains **online retail transaction data** with the following features:
 
 | Column | Description |
 |------|-------------|
-| InvoiceNo | Unique transaction number |
+| InvoiceNo | Unique invoice number |
 | StockCode | Product identifier |
 | Description | Product name |
 | Quantity | Number of products purchased |
@@ -34,157 +34,137 @@ The dataset contains **online retail transaction data** with the following colum
 
 # Project Workflow
 
-## 1. Data Loading
+### 1️⃣ Data Loading
+Retail transaction dataset was loaded using **Pandas** for analysis.
 
-The dataset was loaded using **Pandas**.
+### 2️⃣ Data Understanding
+Exploratory analysis was performed to understand the dataset structure.
 
-```python
-import pandas as pd
-df = pd.read_excel("cust_segmentation.xlsx")
-df.head()
+Key checks included:
+- Dataset size
+- Data types
+- Missing values
 
-2. Data Understanding
+**Observation**
+- Dataset contains **541,909 records**
+- Missing values present in **CustomerID and Description**
 
-Basic data exploration was performed to understand the dataset.
-Key checks performed:
+---
 
-Dataset shape
+### 3️⃣ Data Cleaning
+Data cleaning was performed to improve data quality.
 
-Data types
+Cleaning steps:
+- Removed rows with missing **CustomerID**
+- Filtered invalid or inconsistent transactions
 
-Missing values
+This ensures accurate **customer-level analysis**.
 
-df.shape
-df.info()
-df.isnull().sum()
-Observations
+---
 
-Dataset contains 541,909 records
+### 4️⃣ Feature Engineering
+New features were created to represent customer purchasing behavior.
 
-Missing values found in CustomerID and Description
+Key features used for clustering:
 
-## 3. Data Cleaning
+| Feature | Description |
+|------|-------------|
+| TotalSpend | Total amount spent by customer |
+| TotalQuantity | Total number of items purchased |
+| InvoiceCount | Total number of orders |
 
-To ensure reliable analysis, data cleaning steps were applied.
+These features represent **customer purchase behavior**.
 
-Handling Missing Values
+---
 
-Rows with missing CustomerID were removed because customer identification is required for segmentation.
+### 5️⃣ Feature Scaling
+Feature scaling was applied using **StandardScaler** to normalize values before clustering.
 
-df = df.dropna(subset=["CustomerID"])
-Removing Invalid Transactions
+This step ensures all features contribute equally to the clustering algorithm.
 
-Transactions with negative or incorrect values were removed to maintain data quality.
+---
 
-These cleaning steps ensured that the dataset contained valid customer transactions.
+### 6️⃣ Model Building – K-Means Clustering
+The **K-Means algorithm** was used to segment customers.
 
-## 4. Feature Engineering
+- Number of clusters: **3**
+- Algorithm: **K-Means Clustering**
+- Type: **Unsupervised Learning**
 
-A new feature TotalAmount was created to calculate the total purchase value.
+---
 
-df["TotalAmount"] = df["Quantity"] * df["UnitPrice"]
+### 7️⃣ Customer Segment Labeling
 
-Customer-level features were then generated using aggregation.
+Clusters were mapped into business-friendly labels:
 
-customer_df = df.groupby("CustomerID").agg({
-    "TotalAmount": "sum",
-    "Quantity": "sum",
-    "InvoiceNo": "nunique"
-}).reset_index()
-Final Features Used for Segmentation
-Feature	Description
-TotalSpend	Total money spent by the customer
-TotalQuantity	Total number of products purchased
-InvoiceCount	Total number of orders
-## 5. Feature Scaling
+- **Low Value Customers**
+- **Medium Value Customers**
+- **High Value Customers**
 
-Feature scaling was applied using StandardScaler.
+---
 
-from sklearn.preprocessing import StandardScaler
+# Segmentation Results
 
-scaler = StandardScaler()
-scaled_features = scaler.fit_transform(features)
-## 6. Model Building – K-Means Clustering
+| Segment | Customers |
+|------|------|
+| Low Value | 4093 |
+| Medium Value | 228 |
+| High Value | 17 |
 
-K-Means clustering was applied to segment customers into 3 clusters.
+**Key Insight**
 
-from sklearn.cluster import KMeans
+- Majority of customers belong to the **Low Value segment**
+- A very small group of customers contributes significantly to revenue.
 
-kmeans = KMeans(n_clusters=3, random_state=42)
+---
 
-customer_df["Cluster"] = kmeans.fit_predict(scaled_features)
-## 7. Customer Segment Labeling
+# Customer Segmentation Visualization
 
-Clusters were mapped into meaningful business segments.
+Customer segments were visualized using a **scatter plot based on Total Spend and Total Quantity**.
 
-cluster_map = {
-    0: "Low Value",
-    1: "High Value",
-    2: "Medium Value"
-}
+This visualization clearly shows the separation between customer groups based on purchasing behavior.
 
-customer_df["CustomerSegment"] = customer_df["Cluster"].map(cluster_map)
-Final Segmentation Result
-Segment	Customers
-Low Value	4093
-Medium Value	228
-High Value	17
-Customer Segmentation Visualization
+---
 
-The clusters were visualized using a scatter plot based on Total Spend and Total Quantity.
+# Power BI Dashboard
 
-This visualization clearly shows the separation between Low Value, Medium Value, and High Value customers.
+The segmented dataset was used to create an **interactive Power BI dashboard**.
 
-## Power BI Dashboard
+### Dashboard Metrics
 
-The final segmented dataset was used to create an interactive Power BI dashboard.
+- Total Customers: **4338**
+- Total Revenue: **8.91M**
+- Total Orders: **19K**
+- Average Order Value: **480.87**
+- Average Orders per Customer: **4.27**
 
-Dashboard Metrics
+### Dashboard Insights
 
-Total Customers: 4338
+- Customer distribution by segment
+- Revenue contribution by segment
+- Spending patterns across segments
 
-Total Revenue: 8.91M
+---
 
-Total Orders: 19K
+# Technologies Used
 
-Average Order Value: 480.87
+- Python
+- Pandas
+- Scikit-learn
+- Matplotlib
+- Seaborn
+- Power BI
 
-Average Orders per Customer: 4.27
+---
 
-## Dashboard Insights
+# Conclusion
 
-Customers per segment
-
-Revenue contribution by segment
-
-Customer spending patterns
-
-## Technologies Used
-
-Python
-
-Pandas
-
-Scikit-learn
-
-Matplotlib
-
-Seaborn
-
-Power BI
-
-## Conclusion
-
-Using K-Means clustering, customers were successfully segmented based on their purchasing behavior.
+Using **K-Means clustering**, customers were successfully segmented based on their purchasing behavior.
 
 These insights help businesses:
 
-Identify high-value customers
-
-Improve marketing strategies
-
-Increase customer retention
-
-Optimize business grow
-
+- Identify high-value customers
+- Improve targeted marketing strategies
+- Increase customer retention
+- Optimize revenue growth
 
